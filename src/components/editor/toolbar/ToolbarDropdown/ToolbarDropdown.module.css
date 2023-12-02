@@ -1,0 +1,22 @@
+.select {
+  width: 10rem;
+}
+
+.selectButton {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  text-align: left;
+}
+
+.selectButton:hover {
+  background-color: #F2F2F3;
+}
+
+.popover {
+  width: 10rem;
+}
+.option:hover {
+  background-color: #F2F2F3;
+  cursor: pointer;
+}
