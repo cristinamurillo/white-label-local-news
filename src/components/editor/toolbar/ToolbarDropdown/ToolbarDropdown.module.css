@@ -7,16 +7,33 @@
   display: flex;
   justify-content: space-between;
   text-align: left;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
 }
 
-.selectButton:hover {
+.selectButton:hover,
+.selectButton[aria-expanded="true"],
+.selectButton:focus-visible {
   background-color: #F2F2F3;
+  outline: none;
 }
+
 
 .popover {
   width: 10rem;
+  border-radius: 4px;
+  border: 1px solid gray;
+  padding: 0.25rem;
 }
-.option:hover {
-  background-color: #F2F2F3;
+
+.option {
+  padding: 0.5rem;
   cursor: pointer;
+  border-radius: 4px;
 }
+.option:hover,
+.option:focus-visible {
+  background-color: #F2F2F3;
+  outline: none;
+}
+
