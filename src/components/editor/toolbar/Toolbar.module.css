@@ -1,0 +1,13 @@
+.container {
+  border: 1px solid #C7C8CA;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  padding: 0.25rem;
+}
+
+.separator {
+  border-left: 2px solid #EFEFF0;
+  height: 1.5rem;
+  margin: 0 0.25rem;
+}
