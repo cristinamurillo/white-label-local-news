@@ -1,3 +1,4 @@
+import path from 'path';
 import type { StorybookConfig } from "@storybook/nextjs";
 
 const config: StorybookConfig = {
@@ -8,6 +9,7 @@ const config: StorybookConfig = {
     "@storybook/addon-onboarding",
     "@storybook/addon-interactions",
   ],
+  staticDirs: ['../public'],
   framework: {
     name: "@storybook/nextjs",
     options: {},
