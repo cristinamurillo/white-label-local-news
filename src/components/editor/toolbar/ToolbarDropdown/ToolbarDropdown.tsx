@@ -1,4 +1,4 @@
-import React, { Key } from "react";
+import React, { Key, PropsWithChildren } from "react";
 import Image from "next/image";
 import {
   Button,
@@ -12,16 +12,15 @@ import styles from "./ToolbarDropdown.module.css";
 
 type DropdownProps = {
   ariaLabel: string;
-  options: string[];
   selected: string;
   onSelectionChange: (key: Key) => void;
 };
 export function ToolbarDropdown({
+  children,
   ariaLabel,
-  options,
   selected,
   onSelectionChange,
-}: DropdownProps) {
+}: PropsWithChildren<DropdownProps>) {
   return (
     <Select
       aria-label={ariaLabel}
@@ -40,14 +39,20 @@ export function ToolbarDropdown({
         </div>
       </Button>
       <Popover className={styles.popover}>
-        <ListBox>
-          {options.map((option) => (
-            <ListBoxItem key={option} className={styles.option}>
-              {option}
-            </ListBoxItem>
-          ))}
-        </ListBox>
+        <ListBox>{children}</ListBox>
       </Popover>
     </Select>
+  );
+}
+
+type DropdownOptionProps = {
+  key: string;
+  label: string;
+};
+export function DropdownOption({ key, label }: DropdownOptionProps) {
+  return (
+    <ListBoxItem key={key} className={styles.option}>
+      {label}
+    </ListBoxItem>
   );
 }

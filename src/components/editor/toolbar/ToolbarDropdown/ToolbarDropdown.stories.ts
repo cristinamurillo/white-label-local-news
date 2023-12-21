@@ -1,6 +1,7 @@
 import React from "react"
 import  type { Meta, StoryObj } from '@storybook/react'
-import {ToolbarDropdown} from "./ToolbarDropdown";
+import {ToolbarDropdown, DropdownOption} from "./ToolbarDropdown";
+
 
 const meta = {
   title: 'Components/ToolbarDropdown',
@@ -13,11 +14,12 @@ type Story = StoryObj<typeof ToolbarDropdown>
 export const Primary: Story = {
   args: {
     ariaLabel: 'storybook dropdown',
-    options: [
-      'Cat',
-      'Example',
-      'Dog',
-      'Horse',
-    ],
+
+    //children: {
+      //options: ['example'],
+      //mapping: {
+        //example: <DropdownOption label="Example" key="example"/>,
+      //}
+    //}
   },
 }
