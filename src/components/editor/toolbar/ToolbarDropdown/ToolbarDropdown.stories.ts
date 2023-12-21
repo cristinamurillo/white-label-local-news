@@ -1,3 +1,4 @@
+import React from "react"
 import  type { Meta, StoryObj } from '@storybook/react'
 import {ToolbarDropdown} from "./ToolbarDropdown";
 
@@ -7,9 +8,8 @@ const meta = {
 } satisfies Meta<typeof ToolbarDropdown>
 
 export default meta;
-type Story = StoryObj<typeof meta>
+type Story = StoryObj<typeof ToolbarDropdown>
 
-//export const Primary: Story = {}
 export const Primary: Story = {
   args: {
     ariaLabel: 'storybook dropdown',
