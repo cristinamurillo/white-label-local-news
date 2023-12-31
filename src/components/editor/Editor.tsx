@@ -13,6 +13,9 @@ function onError(error: Error) {
 
 const THEME_PREFIX = "article-editor";
 const theme = {
+  text: {
+    underline: `${THEME_PREFIX}-underline`,
+  },
   heading: {
     h1: `${THEME_PREFIX}-h1`,
     h2: `${THEME_PREFIX}-h2`,

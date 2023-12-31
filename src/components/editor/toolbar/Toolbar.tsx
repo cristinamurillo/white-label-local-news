@@ -111,7 +111,7 @@ export function Toolbar() {
       <ToolbarButton
         label="Underline"
         isActive={isUnderline}
-        onPress={(e) => console.log(e)}
+        onPress={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, "underline")}
       />
       <div className={styles.separator}></div>
     </div>
