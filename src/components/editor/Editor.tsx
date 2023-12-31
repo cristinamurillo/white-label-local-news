@@ -4,6 +4,7 @@ import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
 import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
 import LexicalErrorBoundary from "@lexical/react/LexicalErrorBoundary";
+import { Toolbar } from "./toolbar/Toolbar";
 
 function onError(error: Error) {
   console.error(error);
@@ -16,6 +17,7 @@ export function Editor() {
   };
   return (
     <LexicalComposer initialConfig={initialConfig}>
+      <Toolbar />
       <RichTextPlugin
         contentEditable={<ContentEditable />}
         placeholder={<div>Enter some text...</div>}

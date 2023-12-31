@@ -13,10 +13,12 @@ import {
   $isRangeSelection,
   COMMAND_PRIORITY_CRITICAL,
   SELECTION_CHANGE_COMMAND,
+  FORMAT_TEXT_COMMAND,
+  $isRootOrShadowRoot,
 } from "lexical";
 import { $createHeadingNode } from "@lexical/rich-text";
 import { $setBlocksType } from "@lexical/selection";
-import { $findMatchingParent, $isRootOrShadowRoot } from "lexical/LexicalUtils";
+import { $findMatchingParent } from "@lexical/utils";
 
 const blockTypeName = {
   h1: "Heading 1",
@@ -97,7 +99,7 @@ export function Toolbar() {
       <ToolbarButton
         label="Bold"
         isActive={isBold}
-        onPress={(e) => console.log(e)}
+        onPress={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, "bold")}
       />
       <ToolbarButton
         label="Underline"
