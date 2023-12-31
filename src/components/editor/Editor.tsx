@@ -11,10 +11,19 @@ function onError(error: Error) {
   console.error(error);
 }
 
+const THEME_PREFIX = "article-editor";
+const theme = {
+  heading: {
+    h1: `${THEME_PREFIX}-h1`,
+    h2: `${THEME_PREFIX}-h2`,
+  },
+};
+
 export function Editor() {
   const initialConfig = {
     namespace: "ArticleEditor",
     nodes: [HeadingNode],
+    theme,
     onError,
   };
   return (

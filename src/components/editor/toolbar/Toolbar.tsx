@@ -16,7 +16,7 @@ import {
   FORMAT_TEXT_COMMAND,
   $isRootOrShadowRoot,
 } from "lexical";
-import { $createHeadingNode } from "@lexical/rich-text";
+import { $createHeadingNode, $isHeadingNode } from "@lexical/rich-text";
 import { $setBlocksType } from "@lexical/selection";
 import { $findMatchingParent } from "@lexical/utils";
 
@@ -55,9 +55,16 @@ export function Toolbar() {
     const elementKey = element.getKey();
     const elementDOM = editor.getElementByKey(elementKey);
 
-    // update text formats
+    // update active text formats
     setIsBold(selection.hasFormat("bold"));
     setIsUnderline(selection.hasFormat("underline"));
+
+    // update block type
+    // TODO: add typing here
+    const selectedBlockType = $isHeadingNode(element)
+      ? element.getTag()
+      : element.getType();
+    setBlockType(selectedBlockType);
   }, []);
 
   React.useEffect(() => {
@@ -72,7 +79,6 @@ export function Toolbar() {
   }, [editor, $updateToolbar]);
 
   function onBlockTypeSelection(value: Key) {
-    console.log(value);
     editor.update(() => {
       const selection = $getSelection();
       if ($INTERNAL_isPointSelection(selection)) {
