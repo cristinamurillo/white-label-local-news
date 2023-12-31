@@ -1,0 +1,17 @@
+.editorContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.editorContentEditable {
+  outline: none;
+  padding: 0.5rem;
+}
+
+.editorPlaceholder {
+  position: absolute;
+  top: 5.6rem;
+  color: lightgray;
+  left: 1.5rem;
+}

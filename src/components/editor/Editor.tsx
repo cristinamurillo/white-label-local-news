@@ -6,6 +6,8 @@ import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
 import { HeadingNode } from "@lexical/rich-text";
 import LexicalErrorBoundary from "@lexical/react/LexicalErrorBoundary";
 import { Toolbar } from "./toolbar/Toolbar";
+import styles from "./Editor.module.css";
+import { AutoFocusPlugin } from "./plugins/AutoFocus";
 
 function onError(error: Error) {
   console.error(error);
@@ -31,13 +33,20 @@ export function Editor() {
   };
   return (
     <LexicalComposer initialConfig={initialConfig}>
-      <Toolbar />
-      <RichTextPlugin
-        contentEditable={<ContentEditable />}
-        placeholder={<div>Enter some text...</div>}
-        ErrorBoundary={LexicalErrorBoundary}
-      />
+      <div className={styles.editorContainer}>
+        <Toolbar />
+        <RichTextPlugin
+          contentEditable={
+            <ContentEditable className={styles.editorContentEditable} />
+          }
+          ErrorBoundary={LexicalErrorBoundary}
+          placeholder={
+            <div className={styles.editorPlaceholder}>Enter some text...</div>
+          }
+        />
+      </div>
       <HistoryPlugin />
+      <AutoFocusPlugin />
     </LexicalComposer>
   );
 }
