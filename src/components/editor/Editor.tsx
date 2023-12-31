@@ -3,6 +3,7 @@ import { LexicalComposer } from "@lexical/react/LexicalComposer";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
 import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
+import { HeadingNode } from "@lexical/rich-text";
 import LexicalErrorBoundary from "@lexical/react/LexicalErrorBoundary";
 import { Toolbar } from "./toolbar/Toolbar";
 
@@ -13,6 +14,7 @@ function onError(error: Error) {
 export function Editor() {
   const initialConfig = {
     namespace: "ArticleEditor",
+    nodes: [HeadingNode],
     onError,
   };
   return (

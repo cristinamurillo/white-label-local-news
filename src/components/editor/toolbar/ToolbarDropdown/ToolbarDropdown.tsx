@@ -46,12 +46,12 @@ export function ToolbarDropdown({
 }
 
 type DropdownOptionProps = {
-  key: string;
+  id: string;
   label: string;
 };
-export function DropdownOption({ key, label }: DropdownOptionProps) {
+export function DropdownOption({ id, label }: DropdownOptionProps) {
   return (
-    <ListBoxItem key={key} className={styles.option}>
+    <ListBoxItem id={id} className={styles.option}>
       {label}
     </ListBoxItem>
   );

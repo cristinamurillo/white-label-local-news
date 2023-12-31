@@ -72,6 +72,7 @@ export function Toolbar() {
   }, [editor, $updateToolbar]);
 
   function onBlockTypeSelection(value: Key) {
+    console.log(value);
     editor.update(() => {
       const selection = $getSelection();
       if ($INTERNAL_isPointSelection(selection)) {
@@ -91,9 +92,9 @@ export function Toolbar() {
         selected={blockType}
         onSelectionChange={onBlockTypeSelection}
       >
-        <DropdownOption key="h1" label={blockTypeName["h1"]} />
-        <DropdownOption key="h2" label={blockTypeName["h2"]} />
-        <DropdownOption key="paragraph" label={blockTypeName["paragraph"]} />
+        <DropdownOption id="h1" label={blockTypeName["h1"]} />
+        <DropdownOption id="h2" label={blockTypeName["h2"]} />
+        <DropdownOption id="paragraph" label={blockTypeName["paragraph"]} />
       </ToolbarDropdown>
       <div className={styles.separator}></div>
       <ToolbarButton
