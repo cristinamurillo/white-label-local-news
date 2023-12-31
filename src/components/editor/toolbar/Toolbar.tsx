@@ -32,8 +32,15 @@ export function Toolbar() {
   const [editor] = useLexicalComposerContext();
   const [isBold, setIsBold] = React.useState(false);
   const [isUnderline, setIsUnderline] = React.useState(false);
+  const [isItalic, setIsItalic] = React.useState(false);
   const [blockType, setBlockType] =
     React.useState<keyof typeof blockTypeName>("paragraph");
+  const [isApple, setIsApple] = React.useState(false);
+
+  React.useEffect(() => {
+    const appleUserAgent = /Mac|iPod|iPhone|iPad/.test(navigator.userAgent);
+    setIsApple(appleUserAgent);
+  }, []);
 
   const $updateToolbar = useCallback(() => {
     const selection = $getSelection();
@@ -58,6 +65,7 @@ export function Toolbar() {
     // update active text formats
     setIsBold(selection.hasFormat("bold"));
     setIsUnderline(selection.hasFormat("underline"));
+    setIsItalic(selection.hasFormat("italic"));
 
     // update block type
     // TODO: add typing here
@@ -90,7 +98,6 @@ export function Toolbar() {
       }
     });
   }
-
   return (
     <div className={styles.container}>
       <ToolbarDropdown
@@ -106,12 +113,20 @@ export function Toolbar() {
       <ToolbarButton
         label="Bold"
         isActive={isBold}
+        title={isApple ? "Bold (⌘B)" : "Bold (Ctrl + B)"}
         onPress={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, "bold")}
       />
       <ToolbarButton
         label="Underline"
         isActive={isUnderline}
+        title={isApple ? "Underline (⌘U)" : "Underline (Ctrl + U)"}
         onPress={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, "underline")}
+      />
+      <ToolbarButton
+        label="Italics"
+        isActive={isItalic}
+        title={isApple ? "Italics (⌘I)" : "Italics (Ctrl + I)"}
+        onPress={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, "italic")}
       />
       <div className={styles.separator}></div>
     </div>
