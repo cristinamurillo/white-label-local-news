@@ -15,10 +15,17 @@ import {
   SELECTION_CHANGE_COMMAND,
   FORMAT_TEXT_COMMAND,
   $isRootOrShadowRoot,
+  RangeSelection,
+  TextNode,
+  ElementNode,
+  KEY_MODIFIER_COMMAND,
+  COMMAND_PRIORITY_NORMAL,
 } from "lexical";
+import { $isLinkNode, TOGGLE_LINK_COMMAND } from "@lexical/link";
 import { $createHeadingNode, $isHeadingNode } from "@lexical/rich-text";
 import { $setBlocksType } from "@lexical/selection";
 import { $findMatchingParent } from "@lexical/utils";
+import { $isAtNodeEnd } from "@lexical/selection";
 
 const blockTypeName = {
   h1: "Heading 1",
@@ -26,13 +33,48 @@ const blockTypeName = {
   paragraph: "Normal Text",
 };
 
-const blockNames = Object.values(blockTypeName);
+//TODO: move to utils or something
+function getSelectedNode(selection: RangeSelection): TextNode | ElementNode {
+  const anchor = selection.anchor;
+  const focus = selection.focus;
+  const anchorNode = selection.anchor.getNode();
+  const focusNode = selection.focus.getNode();
+  if (anchorNode === focusNode) {
+    return anchorNode;
+  }
+  const isBackward = selection.isBackward();
+  if (isBackward) {
+    return $isAtNodeEnd(focus) ? anchorNode : focusNode;
+  } else {
+    return $isAtNodeEnd(anchor) ? anchorNode : focusNode;
+  }
+}
+const SUPPORTED_URL_PROTOCOLS = new Set([
+  "http:",
+  "https:",
+  "mailto:",
+  "sms:",
+  "tel:",
+]);
+function sanitizeUrl(url: string): string {
+  try {
+    const parsedUrl = new URL(url);
+    // eslint-disable-next-line no-script-url
+    if (!SUPPORTED_URL_PROTOCOLS.has(parsedUrl.protocol)) {
+      return "about:blank";
+    }
+  } catch {
+    return url;
+  }
+  return url;
+}
 
 export function Toolbar() {
   const [editor] = useLexicalComposerContext();
   const [isBold, setIsBold] = React.useState(false);
   const [isUnderline, setIsUnderline] = React.useState(false);
   const [isItalic, setIsItalic] = React.useState(false);
+  const [isLink, setIsLink] = React.useState(false);
   const [blockType, setBlockType] =
     React.useState<keyof typeof blockTypeName>("paragraph");
   const [isApple, setIsApple] = React.useState(false);
@@ -67,6 +109,15 @@ export function Toolbar() {
     setIsUnderline(selection.hasFormat("underline"));
     setIsItalic(selection.hasFormat("italic"));
 
+    // update links
+    const node = getSelectedNode(selection);
+    const parent = node.getParent();
+    if ($isLinkNode(parent) || $isLinkNode(node)) {
+      setIsLink(true);
+    } else {
+      setIsLink(false);
+    }
+
     // update block type
     // TODO: add typing here
     const selectedBlockType = $isHeadingNode(element)
@@ -74,6 +125,14 @@ export function Toolbar() {
       : element.getType();
     setBlockType(selectedBlockType);
   }, []);
+
+  const insertLink = useCallback(() => {
+    if (!isLink) {
+      editor.dispatchCommand(TOGGLE_LINK_COMMAND, sanitizeUrl("https://"));
+    } else {
+      editor.dispatchCommand(TOGGLE_LINK_COMMAND, null);
+    }
+  }, [editor, isLink]);
 
   React.useEffect(() => {
     return editor.registerCommand(
@@ -85,6 +144,29 @@ export function Toolbar() {
       COMMAND_PRIORITY_CRITICAL
     );
   }, [editor, $updateToolbar]);
+
+  React.useEffect(() => {
+    return editor.registerCommand(
+      KEY_MODIFIER_COMMAND,
+      (payload) => {
+        const event: KeyboardEvent = payload;
+        const { code, ctrlKey, metaKey } = event;
+
+        if (code === "KeyK" && (ctrlKey || metaKey)) {
+          event.preventDefault();
+          let url: string | null;
+          if (!isLink) {
+            url = sanitizeUrl("https://");
+          } else {
+            url = null;
+          }
+          return editor.dispatchCommand(TOGGLE_LINK_COMMAND, url);
+        }
+        return false;
+      },
+      COMMAND_PRIORITY_NORMAL
+    );
+  }, [editor, isLink]);
 
   function onBlockTypeSelection(value: Key) {
     editor.update(() => {

@@ -8,3 +8,7 @@
 .article-editor-underline {
   text-decoration: underline;
 }
+.article-editor-italic {
+  font-style: italic;
+}
+

@@ -8,6 +8,8 @@ import LexicalErrorBoundary from "@lexical/react/LexicalErrorBoundary";
 import { Toolbar } from "./toolbar/Toolbar";
 import styles from "./Editor.module.css";
 import { AutoFocusPlugin } from "./plugins/AutoFocus";
+import { LinkNode } from "@lexical/link";
+import { LinkPlugin } from "@lexical/react/LexicalLinkPlugin";
 
 function onError(error: Error) {
   console.error(error);
@@ -17,6 +19,7 @@ const THEME_PREFIX = "article-editor";
 const theme = {
   text: {
     underline: `${THEME_PREFIX}-underline`,
+    italic: `${THEME_PREFIX}-italic`,
   },
   heading: {
     h1: `${THEME_PREFIX}-h1`,
@@ -27,7 +30,7 @@ const theme = {
 export function Editor() {
   const initialConfig = {
     namespace: "ArticleEditor",
-    nodes: [HeadingNode],
+    nodes: [HeadingNode, LinkNode],
     theme,
     onError,
   };
@@ -44,6 +47,7 @@ export function Editor() {
             <div className={styles.editorPlaceholder}>Enter some text...</div>
           }
         />
+        <LinkPlugin />
       </div>
       <HistoryPlugin />
       <AutoFocusPlugin />
